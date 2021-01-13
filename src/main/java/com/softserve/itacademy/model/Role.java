@@ -2,9 +2,9 @@ package com.softserve.itacademy.model;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Entity
@@ -25,15 +25,13 @@ public class Role {
 
     @NotBlank(message = "The roleName cannot be empty")
     @Column(nullable = false, unique = true)
+    @Pattern(regexp = "^[-A-Za-z0-9#]+")
     private String name;
 
-
     @OneToMany(mappedBy = "role_id")
-
     private List<User> users;
 
-    public Role() {
-    }
+    public Role() {}
 
     public long getId() {
         return id;
@@ -51,10 +49,6 @@ public class Role {
         return users;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
     @Override
     public String toString() {
         return "Role {" +
@@ -62,5 +56,4 @@ public class Role {
                 ", name = '" + name + '\'' +
                 "} ";
     }
-
 }

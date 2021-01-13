@@ -1,11 +1,7 @@
 package com.softserve.itacademy.model;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
 import javax.persistence.*;
-
-import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 
@@ -19,13 +15,12 @@ public class User {
             name = "sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
-                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "role_sequence"),
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "user_sequence"),
                     @org.hibernate.annotations.Parameter(name = "initial_value", value = "50"),
                     @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
             }
     )
     private long id;
-
 
     @Pattern(regexp = "(^([A-Z])\\w+-+[A-Z](.+?)(?:\\n|$))")
     @Column
@@ -35,16 +30,15 @@ public class User {
     @Column
     private String last_name;
 
-
     @NotBlank(message = "The email cannot be empty")
     @Column(nullable = false, unique = true)
     @Email
     private String email;
 
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=(.*[a-z])+)(?=(.*[\\d])+)(?=(.*[\\W])+)(?!.*\\s).{8,}$")
     @NotBlank(message = "The password cannot be empty")
     @Column
     private String password;
-
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_id", referencedColumnName = "id")
@@ -101,5 +95,15 @@ public class User {
 
     public Role getRole_id() {
         return role_id;
+    }
+
+    @Override
+    public String toString() {
+        return "User {" +
+                "id = " + id +
+                ", First name = '" + first_name + '\'' +
+                ", Last name = '" + last_name + '\'' +
+                ", email = '" + email + '\'' +
+                "} ";
     }
 }

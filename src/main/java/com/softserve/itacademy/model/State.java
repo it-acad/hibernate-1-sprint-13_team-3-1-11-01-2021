@@ -18,18 +18,16 @@ public class State {
             name = "sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
-                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "role_sequence"),
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "state_sequence"),
                     @org.hibernate.annotations.Parameter(name = "initial_value", value = "50"),
                     @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
             }
     )
     private long id;
 
-    private final String nameRegex = "[\\s\\w/]+";
-
     @NotBlank(message = "State name cannot be blank")
     @Size(min = 1, max = 20)
-    @Pattern(regexp = nameRegex)
+    @Pattern(regexp = "[\\s\\w/]+")
     @Column(nullable = false, unique = true)
     private String name;
 
@@ -43,7 +41,16 @@ public class State {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "State {" +
+                "id = " + id +
+                ", name = '" + name + '\'' +
+                "} ";
     }
 }

@@ -45,13 +45,15 @@ public class UserTests {
         user.setLastName("Valid-Name");
         user.setPassword("qwQW12!@");
         user.setRole(traineeRole);
-
-
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<User>> violations = validator.validate(user);
 
         assertEquals(0, violations.size());
+    }
+    @Test
+    void checkToString(){
+        assertEquals("User {id = 0, First name = 'Valid-Name', Last name = 'Valid-Name', email = 'valid@cv.edu.ua'} ", validUser.toString());
     }
 
     @Test
@@ -59,7 +61,6 @@ public class UserTests {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<User>> violations = validator.validate(validUser);
-
         assertEquals(0, violations.size());
     }
 

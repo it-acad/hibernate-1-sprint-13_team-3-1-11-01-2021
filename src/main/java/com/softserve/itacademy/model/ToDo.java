@@ -17,22 +17,22 @@ public class ToDo {
             name = "sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
-                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "role_sequence"),
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "todo_sequence"),
                     @org.hibernate.annotations.Parameter(name = "initial_value", value = "50"),
                     @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
             }
     )
+    private long id;
 
-    private int id;
     @NotEmpty(message = "To-Do title cannot be empty")
     @Column(nullable = false)
     @Pattern(regexp = "^[A-Za-z0-9-]+")
     private String title;
+
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
     private List<Task> taskList;
-
 
     @ManyToMany
     @JoinTable(
@@ -50,8 +50,7 @@ public class ToDo {
         createdAt = LocalDateTime.now();
     }
 
-    public ToDo() {
-    }
+    public ToDo() {}
 
     public long getId() {
         return id;
@@ -75,5 +74,13 @@ public class ToDo {
 
     public void setOwner(User owner) {
         this.owner_id = owner;
+    }
+
+    @Override
+    public String toString() {
+        return "ToDo {" +
+                "id = " + id +
+                ", name = '" + title + '\'' +
+                "} ";
     }
 }

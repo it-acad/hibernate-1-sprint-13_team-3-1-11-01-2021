@@ -2,7 +2,6 @@ package com.softserve.itacademy.model;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -16,7 +15,7 @@ public class Task {
             name = "sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
-                    @Parameter(name = "sequence_name", value = "role_sequence"),
+                    @Parameter(name = "sequence_name", value = "task_sequence"),
                     @Parameter(name = "initial_value", value = "50"),
                     @Parameter(name = "increment_size", value = "1")
             }
@@ -71,4 +70,13 @@ public class Task {
         return state;
     }
 
+    @Override
+    public String toString() {
+        return "Task {" +
+                "id = " + id +
+                ", name = '" + name + '\'' +
+                ", priority = '" + priority.toString() + '\'' +
+                ", state = '" + state.getName() + '\'' +
+                "} ";
+    }
 }

@@ -1,57 +1,58 @@
 package com.softserve.itacademy.model;
 
-
-import org.junit.jupiter.api.BeforeAll;
+import com.softserve.itacademy.repository.ToDoRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
 @SpringBootTest
-class RoleTests {
+class StateTest {
 
     @Test
-    void validRole(){
-        Role role = new Role();
-        role.setName("Developer");
+    void validState(){
+        State state = new State();
+        state.setName("in progress");
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
-        Set<ConstraintViolation<Role>> violations = validator.validate(role);
+        Set<ConstraintViolation<State>> violations = validator.validate(state);
         assertEquals(0, violations.size());
     }
 
     @Test
     void checkToString(){
-        Role role = new Role();
-        role.setName("Developer");
-        assertEquals("Role {id = 0, name = 'Developer'} ", role.toString());
+        State state = new State();
+        state.setName("in progress");
+        assertEquals("State {id = 0, name = 'in progress'} ", state.toString());
     }
 
     @ParameterizedTest
     @MethodSource("provideInvalidName")
-    void constraintViolationRoleName(String input, String errorValue) {
-        Role role = new Role();
-        role.setName(input);
+    void constraintViolationStateName(String input, String errorValue) {
+        State state = new State();
+        state.setName(input);
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
-        Set<ConstraintViolation<Role>> violations = validator.validate(role);
+        Set<ConstraintViolation<State>> violations = validator.validate(state);
         assertEquals(errorValue, violations.iterator().next().getInvalidValue());
     }
 
     private static Stream<Arguments> provideInvalidName(){
         return Stream.of(
-                Arguments.of("invalid$^$^", "invalid$^$^"),
-                Arguments.of("", "")
+                Arguments.of("invalidinvalidinvalidinvalidinvalid", "invalidinvalidinvalidinvalidinvalid"),
+                Arguments.of("", ""),
+                Arguments.of("Invalid84256*^%@#", "Invalid84256*^%@#")
         );
     }
 }
