@@ -11,14 +11,13 @@ import java.util.List;
 @Table(name = "roles")
 public class Role {
     @Id
-    @Column(name = "role_id")
     @GeneratedValue(generator = "sequence-generator")
     @GenericGenerator(
             name = "sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
                     @Parameter(name = "sequence_name", value = "role_sequence"),
-                    @Parameter(name = "initial_value", value = "10"),
+                    @Parameter(name = "initial_value", value = "50"),
                     @Parameter(name = "increment_size", value = "1")
             }
     )
@@ -28,7 +27,9 @@ public class Role {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "role_id")
+
     private List<User> users;
 
     public Role() {

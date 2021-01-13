@@ -13,14 +13,13 @@ import java.util.List;
 public class State {
 
     @Id
-    @Column(name = "state_id")
     @GeneratedValue(generator = "sequence-generator")
     @GenericGenerator(
             name = "sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
                     @org.hibernate.annotations.Parameter(name = "sequence_name", value = "role_sequence"),
-                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "10"),
+                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "50"),
                     @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
             }
     )

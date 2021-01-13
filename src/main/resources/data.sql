@@ -9,7 +9,7 @@ INSERT INTO states (id, name) VALUES (5, 'New');
 INSERT INTO states (id, name) VALUES (6, 'Doing');
 INSERT INTO states (id, name) VALUES (7, 'Verify');
 INSERT INTO states (id, name) VALUES (8, 'Done');
-
+--
 INSERT INTO todos (id, title, created_at, owner_id) VALUES (7, 'Mike''s To-Do #1', '2020-09-16 14:00:04.810221', 4);
 INSERT INTO todos (id, title, created_at, owner_id) VALUES (8, 'Mike''s To-Do #2', '2020-09-16 14:00:11.480271', 4);
 INSERT INTO todos (id, title, created_at, owner_id) VALUES (9, 'Mike''s To-Do #3', '2020-09-16 14:00:16.351238', 4);

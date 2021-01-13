@@ -1,11 +1,7 @@
 package com.softserve.itacademy;
 
-import com.softserve.itacademy.model.Role;
-import com.softserve.itacademy.model.ToDo;
-import com.softserve.itacademy.model.User;
-import com.softserve.itacademy.repository.RoleRepository;
-import com.softserve.itacademy.repository.ToDoRepository;
-import com.softserve.itacademy.repository.UserRepository;
+import com.softserve.itacademy.model.*;
+import com.softserve.itacademy.repository.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.val;
@@ -26,6 +22,8 @@ public class ToDoListApplication implements CommandLineRunner {
     UserRepository userRepository;
     RoleRepository roleRepository;
     ToDoRepository toDoRepository;
+    TaskRepository taskRepository;
+    StateRepository stateRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(ToDoListApplication.class, args);
@@ -34,8 +32,6 @@ public class ToDoListApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Running Spring Boot Application");
-
-
 
         Role role = roleRepository.getOne(2L);
         User validUser  = new User();
@@ -52,11 +48,19 @@ public class ToDoListApplication implements CommandLineRunner {
         toDo.setOwner(validUser);
         toDo = toDoRepository.save(toDo);
 
-        LocalDate localDate = toDo.getCreatedAt().toLocalDate();
+        Task task = new Task();
+        task.setName("ss");
+        task.setPriority(Priority.HIGH);
+        State state= new State();
+        state.setName("needtodo");
+        stateRepository.save(state);
+        task.setState(state);
+        task.setTodo(toDo);
+        //taskRepository.save(task);
+
+        LocalDateTime localDate = toDo.getCreatedAt();
         LocalDate today = LocalDate.now();
-        System.out.println(localDate.equals(today));
-
-
+        System.out.println(localDate.toLocalDate().equals(today));
 
     }
 }

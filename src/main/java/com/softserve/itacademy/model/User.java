@@ -4,94 +4,102 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Entity
-@Table(name ="users")
-public class User  {
+@Table(name = "users")
+public class User {
+
     @Id
-    @Column(name = "user_id")
     @GeneratedValue(generator = "sequence-generator")
     @GenericGenerator(
             name = "sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
                     @org.hibernate.annotations.Parameter(name = "sequence_name", value = "role_sequence"),
-                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "10"),
-                    @Parameter(name = "increment_size", value = "1")
+                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "50"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
             }
     )
     private long id;
 
-    @NotBlank(message = "User first name cannot be null")
-    @Column(nullable = false)
-    private String firstName;
 
-    @NotBlank(message = "User last name cannot be null")
-    @Column(nullable = false)
-    private String lastName;
+    @Pattern(regexp = "(^([A-Z])\\w+-+[A-Z](.+?)(?:\\n|$))")
+    @Column
+    private String first_name;
 
-    @NotBlank(message = "User email cannot be empty")
+    @Pattern(regexp = "(^([A-Z])\\w+-+[A-Z](.+?)(?:\\n|$))")
+    @Column
+    private String last_name;
+
+
+    @NotBlank(message = "The email cannot be empty")
     @Column(nullable = false, unique = true)
+    @Email
     private String email;
 
-    @NotBlank
-    @Column(nullable = false)
+    @NotBlank(message = "The password cannot be empty")
+    @Column
     private String password;
 
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Role role_id;
 
-    @ManyToMany
-    private List<ToDo> todoList;
+    @OneToMany(mappedBy = "owner_id")
+    private List<ToDo> todo;
 
-    public long getId() {
-        return id;
+    @ManyToMany(mappedBy = "todo_coll")
+    private List<ToDo> collaborator;
+
+    public User() {
     }
 
-    public String getFirstName() {
-        return firstName;
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
     }
 
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
+    public void setLastName(String last_name) {
+        this.last_name = last_name;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
     public void setRole(Role role) {
-        this.role = role;
+        this.role_id = role;
     }
 
+    public long getId() {
+        return id;
+    }
 
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Role getRole_id() {
+        return role_id;
+    }
 }

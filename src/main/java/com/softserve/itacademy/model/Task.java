@@ -11,14 +11,13 @@ import javax.validation.constraints.Size;
 @Table(name = "tasks")
 public class Task {
     @Id
-    @Column(name = "task_id")
     @GeneratedValue(generator = "sequence-generator")
     @GenericGenerator(
             name = "sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
                     @Parameter(name = "sequence_name", value = "role_sequence"),
-                    @Parameter(name = "initial_value", value = "10"),
+                    @Parameter(name = "initial_value", value = "50"),
                     @Parameter(name = "increment_size", value = "1")
             }
     )
@@ -29,6 +28,7 @@ public class Task {
     @Column(nullable = false)
     private String name;
 
+    @Enumerated(EnumType.STRING)
     private Priority priority;
 
     @ManyToOne(fetch = FetchType.LAZY)
